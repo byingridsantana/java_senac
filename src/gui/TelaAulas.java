@@ -314,8 +314,18 @@ public class TelaAulas extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// Obter o texto que está na caixa de titulo do curso e adicionar a caixa curso que está na area do criar aula
 				txtCurso.setText(txtTituloCurso.getText());
+				
+				// Vamos adicionar os elementos do curso ao objeto curso, tais como:
+				// titulo, carga, horaria, data/inicio
+				
+				curso.setTitulo(txtTituloCurso.getText());
+				curso.setArea(cboArea.getSelectedItem().toString());
+				curso.setCargaHoraria(txtCargaHoraria.getText());
+				curso.setPreco(Double.parseDouble(txtValor.getText())); 
+				
 				// Vamos desativar o painel de curso. 
 				// Vamos usar o comando enabled (habilitar) com valor false
+				
 				txtTituloCurso.setEnabled(false);
 				cboArea.setEnabled(false);
 				txtCargaHoraria.setEnabled(false);
