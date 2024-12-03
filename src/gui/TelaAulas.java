@@ -6,6 +6,9 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -43,7 +46,7 @@ public class TelaAulas extends JFrame {
 	private JTextField txtProfessor;
 	private JTextField txtInicio;
 	private JTextField txtTermino;
-	private JTextField textField;
+	private JTextField txtSala;
 	
 	// Declaração dos itens para criar uma aula. 
 	
@@ -52,6 +55,7 @@ public class TelaAulas extends JFrame {
 	private Sala sala;
 	private Professor professor;
 	private Aulas aulas; 
+	private List<Aluno>listaAluno; 
 
 	/**
 	 * Launch the application.
@@ -79,7 +83,7 @@ public class TelaAulas extends JFrame {
 		// Estes objetos estão vazio e serão preenchidos quando o
 		// usuario clicar nos botoes de incluir
 		curso = new Curso();
-		aluno = new Aluno();
+		listaAluno = new ArrayList<Aluno>();
 		sala = new Sala();
 		professor = new Professor();
 		aulas = new Aulas();
@@ -298,10 +302,10 @@ public class TelaAulas extends JFrame {
 		lblNewLabel_20.setBounds(10, 110, 46, 14);
 		panel_3.add(lblNewLabel_20);
 		
-		textField = new JTextField();
-		textField.setBounds(10, 129, 203, 20);
-		panel_3.add(textField);
-		textField.setColumns(10);
+		txtSala = new JTextField();
+		txtSala.setBounds(10, 129, 203, 20);
+		panel_3.add(txtSala);
+		txtSala.setColumns(10);
 		
 		JLabel lblNewLabel_19 = new JLabel("CADASTRO DE AULAS");
 		lblNewLabel_19.setForeground(Color.DARK_GRAY);
@@ -339,6 +343,13 @@ public class TelaAulas extends JFrame {
 		JButton btnIncluirSala = new JButton("Incluir Sala");
 		btnIncluirSala.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				//Preencher os dados do objeto sala
+				sala.setIdentificacao(txtIdentificacao.getText());
+				sala.setDescricao(txtDescricao.getText());
+				
+				txtSala.setText(txtIdentificacao.getText());
+				
 				btnIncluirSala.setEnabled(false);
 				txtIdentificacao.setEnabled(false);
 				txtDescricao.setEnabled(false);
@@ -350,6 +361,12 @@ public class TelaAulas extends JFrame {
 		JButton btnIncluirProfessor = new JButton("Incluir Professor");
 		btnIncluirProfessor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				professor.setNome(txtNomeProfessor.getText());
+				professor.setEmail(txtEmailProfessor.getText());
+				professor.setCpf(txtCpfProfessor.getText());
+				
+				
 				txtProfessor.setText(txtNomeProfessor.getText());
 				btnIncluirProfessor.setEnabled(false);
 				txtNomeProfessor.setEnabled(false);
@@ -363,6 +380,15 @@ public class TelaAulas extends JFrame {
 		JButton btnIncluirAluno = new JButton("Incluir Aluno");
 		btnIncluirAluno.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				aluno = new Aluno();
+				
+				aluno.setNome(txtNomeAluno.getText());
+				aluno.setEmail(txtEmailAluno.getText());
+				aluno.setCpf(txtCpfAluno.getText());
+				aluno.setIdade(Integer.parseInt(txtIdadeAluno.getText()));
+				listaAluno.add(aluno);
+				
 				cboAlunos.addItem(txtNomeAluno.getText());
 			
 				
@@ -374,13 +400,35 @@ public class TelaAulas extends JFrame {
 		JButton btnCriarAula = new JButton("Criar Aula");
 		btnCriarAula.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btnCriarAula.setEnabled(false);
+				
+				aulas.setId(Integer.parseInt(txtIdAula.getText()));
+				aulas.setCurso(curso);
+				aulas.setProfessor(professor);
+				aulas.setInicio(new Date(Long.parseLong(txtInicio.getText())));
+				aulas.setTermino(new Date(Long.parseLong(txtTermino.getText())));
+				
+				aulas.setAlunos(listaAluno.toArray(new Aluno[0]));
+				aulas.setSala(sala);
+				
 				txtIdAula.setEnabled(false);
 				txtCurso.setEnabled(false);
 				txtProfessor.setEnabled(false);
 				txtInicio.setEnabled(false);
 				txtTermino.setEnabled(false);
-				cboAlunos.setEnabled(false);
+				txtSala.setEnabled(false);
+				
+				System.out.print(cboAlunos.getItemAt(0));
+				
+				
+				
+				
+				//btnCriarAula.setEnabled(false);
+				//txtIdAula.setEnabled(false);
+				//txtCurso.setEnabled(false);
+				//txtProfessor.setEnabled(false);
+				//txtInicio.setEnabled(false);
+				//txtTermino.setEnabled(false);
+				//cboAlunos.setEnabled(false);
 			}
 		});
 		btnCriarAula.setBounds(533, 749, 101, 23);
